@@ -88,9 +88,9 @@ var update = function(modifier) {
     // Gain points
     if (
         glucose.x <= (nad.x + nad.length) &&
-            nad.x <= (glucose.x + nad.length) &&
-            glucose.y <= (nad.y + nad.width) &&
-            nad.y <= (glucose.y + nad.width)
+        nad.x <= (glucose.x + nad.length) &&
+        glucose.y <= (nad.y + nad.width) &&
+        nad.y <= (glucose.y + nad.width)
     ) {
         points += 1;
         // switch glucose image?
@@ -117,15 +117,15 @@ var update = function(modifier) {
         if (characters[i].y < 0) {
             characters[i].y = 0;
         } else if (characters[i].y + characters[i].width > 480) {
-            characters[i].y = 480;
+            characters[i].y = 480 - characters[i].width;
         }
         if (characters[i].x < 0) {
             characters[i].x = 0;
         } else if (characters[i].x + characters[i].length > 512) {
-            characters[i].x = 512;
+            characters[i].x = 512 - characters[i].length;
         }
     }
-    console.log("Update function successful.");
+    //console.log("Update function successful.");
 };
 
 
@@ -149,7 +149,7 @@ var render = function() {
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillText("Points: " + points, 32, 32);
-    console.log("THINGS HAVE BEEN DOODLED.");
+    //console.log("THINGS HAVE BEEN DOODLED.");
 };
 
 // The main game loop
@@ -164,7 +164,7 @@ var main = function() {
 
     // Request to do this again ASAP
     requestAnimationFrame(main);
-    console.log("Main run.");
+    //console.log("Main run.");
 };
 
 // Cross-browser support for requestAnimationFrame
