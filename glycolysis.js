@@ -38,13 +38,17 @@ console.log("Images loaded.");
 var glucose = {
     speed: 256, // movement in pixels/second
     x: 0,
-    y: 0
+    y: 0,
+    length: 240, // in px; these are used to bound movement
+    width: 40
 };
 
 var nad = {
     speed: 128, // movement in pixels/second
     x: 0,
-    y: 0
+    y: 0,
+    length: 30, // in px
+    width: 20
 };
 
 console.log("Classes successfully setup.");
@@ -83,10 +87,10 @@ var update = function(modifier) {
 
     // Gain points
     if (
-        glucose.x <= (nad.x + 32) &&
-            nad.x <= (glucose.x + 32) &&
-            glucose.y <= (nad.y + 32) &&
-            nad.y <= (glucose.y + 32)
+        glucose.x <= (nad.x + nad.length) &&
+            nad.x <= (glucose.x + nad.length) &&
+            glucose.y <= (nad.y + nad.width) &&
+            nad.y <= (glucose.y + nad.width)
     ) {
         points += 1;
         // switch glucose image?
@@ -112,13 +116,12 @@ var update = function(modifier) {
     for (i = 0; i < characters.length; i++) {
         if (characters[i].y < 0) {
             characters[i].y = 0;
-        } else if (characters[i].y > 480) {
+        } else if (characters[i].y + characters[i].width > 480) {
             characters[i].y = 480;
         }
-
         if (characters[i].x < 0) {
             characters[i].x = 0;
-        } else if (characters[i].x > 512) {
+        } else if (characters[i].x + characters[i].length > 512) {
             characters[i].x = 512;
         }
     }
@@ -171,5 +174,4 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 // Play the game
 console.log("Game begun.");
 var then = Date.now();
-reset();
 main();
