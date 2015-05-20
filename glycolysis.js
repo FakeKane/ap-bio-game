@@ -13,7 +13,7 @@ var bgImage = new Image();
 bgImage.onload = function() {
   bgReady = true;
 }
-bgImage.src = "images/background.jpg" // todo
+bgImage.src = "images/background.png" // todo
 
 // Prepare molecules
 var glucoseReady = false;
@@ -21,7 +21,7 @@ var glucoseImage = new Image();
 glucoseImage.onload = function () {
   glucoseReady = true;
 };
-glucoseImage.src = "images/glucose.gif"
+glucoseImage.src = "images/glucose.png"
 
 var nadReady = false;
 var nadImage = new Image();
@@ -44,6 +44,7 @@ var nad = {
 };
 
 var points = 0;
+var characters = [glucose, nad];
 
 // Handle keyboard controls
 var keysDown = {};
@@ -58,6 +59,7 @@ addEventListener("keyup", function (e) {
 
 // Update game objects
 var update = function (modifier) {
+  // move glucose according to keyboard
   if (38 in keysDown) { // Player holding up
     glucose.y -= glucose.speed * modifier
   }
@@ -82,16 +84,35 @@ var update = function (modifier) {
     // switch glucose image?
   }
 
-  if (glucose.y < 0) {
-    glucose.y = 0;
-  } else if (glucose.y > 480) {
-    glucose.y = 480;
+  // Move NAD+ randomly
+  // 2 steps in either direction
+  probability = Math.random();
+  if (probability >= 0.5) {
+    nad.x += 2;
+  } else {
+    nad.x -= 2;
   }
 
-  if (glucose.x < 0) {
-    glucose.x = 0;
-  } else if (glucose.x > 512) {
-    glucose.x = 512;
+  probability = Math.random();
+  if (probability >= 0.5) {
+    nad.y += 2;
+  } else {
+    nad.y -= 2;
+  }
+ 
+  // don't go out of bounds
+  for (int i = 0; i < characters.length; i++) {
+    if (characters[i].y < 0) {
+      characters[i].y = 0;
+    } else if (characters[i].y > 480) {
+      characters[i].y = 480;
+    }
+
+    if (characters[i].x < 0) {
+      characters[i].x = 0;
+    } else if (characters[i].x > 512) {
+      characters[i].x = 512;
+    }
   }
 
 };
