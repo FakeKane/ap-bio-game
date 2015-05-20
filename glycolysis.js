@@ -30,7 +30,7 @@ var nadImage = new Image();
 nadImage.onload = function() {
     nadReady = true;
 };
-nadImage.src = "images/nad.gif"
+nadImage.src = "images/nad.png"
 
 console.log("Images loaded.");
 
