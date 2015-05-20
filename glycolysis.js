@@ -21,7 +21,7 @@ var glucoseImage = new Image();
 glucoseImage.onload = function () {
   glucoseReady = true;
 };
-glucoseImage.src = "images/glucose.gif"
+glucoseImage.src = "images/glucose.png"
 
 var nadReady = false;
 var nadImage = new Image();
