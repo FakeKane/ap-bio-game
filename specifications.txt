@@ -1,1 +1,2 @@
 Color of glucose: 1f1f1f
+Size: 240 by 40 image, circles are of radius 40.
