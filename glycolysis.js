@@ -3,7 +3,7 @@
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 512;
+canvas.width = 640;
 canvas.height = 480;
 document.body.appendChild(canvas);
 
@@ -32,6 +32,13 @@ nadImage.onload = function() {
 };
 nadImage.src = "images/nad.png"
 
+var atpReady = false;
+var atpImage = new Image();
+atpImage.onload = function() {
+    atpReady = true;
+};
+atpImage.src = "images/atp.png"
+
 console.log("Images loaded.");
 
 // Game objects
@@ -44,17 +51,25 @@ var glucose = {
 };
 
 var nad = {
-    speed: 128, // movement in pixels/second
+    speed: 2, // this needs to be used
     x: 0,
     y: 0,
     length: 30, // in px
     width: 20
 };
 
+var atp = {
+    speed: 5, // this needs to be used
+    x: 0,
+    y: 0,
+    length: 60, // in px
+    width: 15
+}
+
 console.log("Classes successfully setup.");
 
 var points = 0;
-var characters = [glucose, nad];
+var characters = [glucose, nad, atp];
 
 // Handle keyboard controls
 var keysDown = {};
@@ -76,6 +91,10 @@ var setup = function() {
 
     nad.x = (Math.random() * (canvas.width - 64)) + 32;
     nad.y = (Math.random() * (canvas.height - 64)) + 32;
+
+    atp.x = (Math.random() * (canvas.width - 64)) + 32;
+    atp.y = (Math.random() * (canvas.height - 64)) + 32;
+
 }
 
 // Update game objects
@@ -97,10 +116,10 @@ var update = function(modifier) {
     // Gain points (collision detection)
     // Needs to be changed to nad.
     if (
-        glucose.x <= (nad.x + nad.length) &&
-        nad.x <= (glucose.x + glucose.length) &&
-        glucose.y <= (nad.y + nad.width) &&
-        nad.y <= (glucose.y + glucose.width)
+        glucose.x <= (atp.x + atp.length) &&
+        atp.x <= (glucose.x + glucose.length) &&
+        glucose.y <= (atp.y + atp.width) &&
+        atp.y <= (glucose.y + glucose.width)
     ) {
         points += 1;
         // switch glucose image?
@@ -110,18 +129,33 @@ var update = function(modifier) {
     // 2 steps in either direction
     probability = Math.random();
     if (probability >= 0.5) {
-        nad.x += 2;
+        nad.x += nad.speed;
     } else {
-        nad.x -= 2;
+        nad.x -= nad.speed;
     }
 
     probability = Math.random();
     if (probability >= 0.5) {
-        nad.y += 2;
+        nad.y += nad.speed;
     } else {
-        nad.y -= 2;
+        nad.y -= nad.speed;
     }
-    
+
+    // Move ATP randomly
+    probability = Math.random();
+    if (probability >= 0.5) {
+        atp.x += atp.speed;
+    } else {
+        atp.x -= atp.speed;
+    }
+
+    probability = Math.random();
+    if (probability >= 0.5) {
+        atp.y += atp.speed;
+    } else {
+        atp.y -= atp.speed;
+    }
+
     // don't go out of bounds
     for (i = 0; i < characters.length; i++) {
         if (characters[i].y < 0) {
@@ -151,6 +185,10 @@ var render = function() {
 
     if (nadReady) {
         ctx.drawImage(nadImage, nad.x, nad.y);
+    }
+
+    if (atpReady) {
+        ctx.drawImage(atpImage, atp.x, atp.y);
     }
 
     // Score
