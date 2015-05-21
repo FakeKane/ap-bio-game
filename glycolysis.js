@@ -94,12 +94,13 @@ var update = function(modifier) {
         glucose.x += glucose.speed * modifier
     }
 
-    // Gain points
+    // Gain points (collision detection)
+    // Needs to be changed to nad.
     if (
         glucose.x <= (nad.x + nad.length) &&
-        nad.x <= (glucose.x + nad.length) &&
+        nad.x <= (glucose.x + glucose.length) &&
         glucose.y <= (nad.y + nad.width) &&
-        nad.y <= (glucose.y + nad.width)
+        nad.y <= (glucose.y + glucose.width)
     ) {
         points += 1;
         // switch glucose image?
