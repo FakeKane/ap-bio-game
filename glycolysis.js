@@ -69,6 +69,15 @@ addEventListener("keyup", function (e) {
 
 console.log("Event listeners setup.");
 
+// setup positions of molecules in beginning
+var setup = function() {
+    glucose.x = (Math.random() * (canvas.width - 64)) + 32;
+    glucose.y = (Math.random() * (canvas.height - 64)) + 32;
+
+    nad.x = (Math.random() * (canvas.width - 64)) + 32;
+    nad.y = (Math.random() * (canvas.height - 64)) + 32;
+}
+
 // Update game objects
 var update = function(modifier) {
     // move glucose according to keyboard
@@ -157,7 +166,7 @@ var main = function() {
     var now = Date.now();
     var delta = now - then;
 
-    update(delta/1000);
+    update(delta / 1000);
     render();
 
     then = now;
@@ -174,4 +183,5 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 // Play the game
 console.log("Game begun.");
 var then = Date.now();
+setup();
 main();
