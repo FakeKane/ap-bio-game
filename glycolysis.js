@@ -125,6 +125,12 @@ var update = function(modifier) {
         // switch glucose image?
     }
 
+    if (points >= 20) {
+        glucoseImage.src = "images/glucose_phosphate.png"
+        atpImage.src = "images/adp.png"
+    } // this is arbitrary
+        
+
     // Move NAD+ randomly
     // 2 steps in either direction
     probability = Math.random();
