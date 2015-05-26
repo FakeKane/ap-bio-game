@@ -6,3 +6,5 @@ Size: 30 by 20 image, box fills the entire image, erasers at 10.0, 0.0 and 20.0,
 
 Color of atp: adenosine 369bcf, phosphate ff8a00
 Size: 60 by 15 image, 35 by 15 adenosine, 
+
+adp is the same as atp image, except with one phosphate gone.
