@@ -1,11 +1,24 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <title>Glycolysis Game</title>
-  </head>
+    <head>
+        <title>Glycolysis Game</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
 
-  <body>
-    <h1>The Glycolysis Game</h1>
-    <script src="glycolysis.js"></script>
-  </body>
+    <body>
+        <h1>The Glycolysis Game</h1>
+
+        <div id="game">
+            <div class="container">
+                <h2>Instructions</h2>
+                <p>You are a dying glucose molecule, and your last wish is to give back to the world that created you. You need to release your energy so that a cell can do useful work with it.</p>
+                <p>Use your arrow keys to move around and pick up the molecule you need. We'll help you figure out what you need!</p>
+                <button id="playbutton">I'm ready</button>
+            </div>
+        </div>
+
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script type="text/javascript" src="glycolysis.js"></script>
+    </body>
 </html>

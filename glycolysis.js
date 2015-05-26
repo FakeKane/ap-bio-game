@@ -1,5 +1,8 @@
 // Adapted from http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/
 
+// Get rid of title screen
+
+
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -107,9 +110,9 @@ var update = function(modifier) {
 
     probability = Math.random();
     if (probability >= 0.5) {
-        nad.y += 2;
+        nad.y += 0.5;
     } else {
-        nad.y -= 2;
+        nad.y -= 0.5;
     }
     
     // don't go out of bounds
@@ -153,7 +156,7 @@ var render = function() {
 };
 
 // The main game loop
-var main = function() {
+var main = function(then) {
     var now = Date.now();
     var delta = now - then;
 
@@ -167,11 +170,18 @@ var main = function() {
     //console.log("Main run.");
 };
 
-// Cross-browser support for requestAnimationFrame
-var w = window;
-requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+$(document).ready(function() {
+    // Cross-browser support for requestAnimationFrame
+    var w = window;
+    requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
 
-// Play the game
-console.log("Game begun.");
-var then = Date.now();
-main();
+    // Get rid of title screen
+    $('button#playbutton').on('click', function() {
+        $('div#game').fadeOut("slow", function() {
+            // Play the game
+            console.log("Game begun.");
+            var then = Date.now();
+            main(then);
+        });
+    });
+});
