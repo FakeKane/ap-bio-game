@@ -3,3 +3,6 @@ Size: 240 by 40 image, circles are of radius 40.
 
 Color of nad: e0be35
 Size: 30 by 20 image, box fills the entire image, erasers at 10.0, 0.0 and 20.0, 0.0 of size 7.00
+
+Color of atp: adenosine 369bcf, phosphate ff8a00
+Size: 60 by 15 image, 35 by 15 adenosine, 
