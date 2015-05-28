@@ -49,7 +49,7 @@ $(document).ready(function() {
 
             // Game objects
             var glucose = {
-                speed: 256, // movement in pixels/second
+                speed: 10, // movement in pixels/second
                 x: 0,
                 y: 0,
                 length: 240, // in px; these are used to bound movement
@@ -107,16 +107,16 @@ $(document).ready(function() {
             var update = function(modifier) {
                 // move glucose according to keyboard
                 if (38 in keysDown) { // Player holding up
-                    glucose.y -= glucose.speed * modifier
+                    glucose.y -= glucose.speed
                 }
                 if (40 in keysDown) { // Player holding down
-                    glucose.y += glucose.speed * modifier
+                    glucose.y += glucose.speed
                 }
                 if (37 in keysDown) { // Player holding left
-                    glucose.x -= glucose.speed * modifier
+                    glucose.x -= glucose.speed
                 }
                 if (39 in keysDown) { // Player holding right
-                    glucose.x += glucose.speed * modifier
+                    glucose.x += glucose.speed
                 }
 
                 // Gain points (collision detection)
