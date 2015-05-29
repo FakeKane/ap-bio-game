@@ -6,12 +6,16 @@ $(document).ready(function() {
     $('button#playbutton').on('click', function() {
         $('div#game').fadeOut("slow", function() {
 
+            // Show instruction bar
+            $('div#instructions').fadeIn();
+
             // Create the canvas
             var canvas = document.createElement("canvas");
             var ctx = canvas.getContext("2d");
             canvas.width = 640;
             canvas.height = 480;
             document.body.appendChild(canvas);
+            $(canvas).css('display:block;')
 
             console.log("Canvas created.");
 
