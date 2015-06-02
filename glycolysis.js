@@ -135,34 +135,39 @@ $(document).ready(function() {
                     // switch glucose image?
                 }
 
+                if (points >= 50) {
+                    glucoseImage.src = "images/glucose_phosphate.png"
+                    atpImage.src = "images/adp.png"
+                }
+
                 // Move NAD+ randomly
                 // 2 steps in either direction
                 probability = Math.random();
-                if (probability >= 0.5) {
+                if (probability >= 0.75) {
                     nad.x += nad.speed;
-                } else {
+                } else if (probability <= 0.25){
                     nad.x -= nad.speed;
                 }
 
                 probability = Math.random();
-                if (probability >= 0.5) {
+                if (probability >= 0.75) {
                     nad.y += nad.speed;
-                } else {
+                } else if (probability <= 0.25){
                     nad.y -= nad.speed;
                 }
 
-                // Move ATP randomly
+                // Move ATP randomly, reduced jitters
                 probability = Math.random();
-                if (probability >= 0.5) {
+                if (probability >= 0.75) {
                     atp.x += atp.speed;
-                } else {
+                } else if (probability <= 0.25){
                     atp.x -= atp.speed;
                 }
 
                 probability = Math.random();
-                if (probability >= 0.5) {
+                if (probability >= 0.75) {
                     atp.y += atp.speed;
-                } else {
+                } else if (probability <= 0.25){
                     atp.y -= atp.speed;
                 }
 
@@ -170,13 +175,13 @@ $(document).ready(function() {
                 for (i = 0; i < characters.length; i++) {
                     if (characters[i].y < 0) {
                         characters[i].y = 0;
-                    } else if (characters[i].y + characters[i].width > 480) {
-                        characters[i].y = 480 - characters[i].width;
+                    } else if (characters[i].y + characters[i].width > canvas.height) {
+                        characters[i].y = canvas.height - characters[i].width;
                     }
                     if (characters[i].x < 0) {
                         characters[i].x = 0;
-                    } else if (characters[i].x + characters[i].length > 512) {
-                        characters[i].x = 512 - characters[i].length;
+                    } else if (characters[i].x + characters[i].length > canvas.width) {
+                        characters[i].x = canvas.width - characters[i].length;
                     }
                 }
                 //console.log("Update function successful.");
