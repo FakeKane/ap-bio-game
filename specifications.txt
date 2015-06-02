@@ -8,3 +8,7 @@ Color of atp: adenosine 369bcf, phosphate ff8a00
 Size: 60 by 15 image, 35 by 15 adenosine, 
 
 adp is the same as atp image, except with one phosphate gone.
+
+Background: bbf4cc, mitochondria image in top, 640x480 dimensions
+
+nadh image is taken from nad image, with orange filling in the spaces.
