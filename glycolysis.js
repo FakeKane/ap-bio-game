@@ -33,21 +33,18 @@ $(document).ready(function() {
             glucoseImage.onload = function() {
                 glucoseReady = true;
             };
-            glucoseImage.src = "images/glucose.png"
 
             var nadReady = false;
             var nadImage = new Image();
             nadImage.onload = function() {
                 nadReady = true;
             };
-            nadImage.src = "images/nad.png"
 
             var atpReady = false;
             var atpImage = new Image();
             atpImage.onload = function() {
                 atpReady = true;
             };
-            atpImage.src = "images/atp.png"
 
             console.log("Images loaded.");
 
@@ -57,7 +54,8 @@ $(document).ready(function() {
                 x: 600,
                 y: 400,
                 length: 240, // in px; these are used to bound movement
-                width: 40
+                width: 40,
+                img: "images/glucose.png"
             };
 
             var nad = {
@@ -65,7 +63,8 @@ $(document).ready(function() {
                 x: 0,
                 y: 0,
                 length: 30, // in px
-                width: 20
+                width: 20,
+                img: "images/nad.png"
             };
 
             var atp = {
@@ -73,13 +72,15 @@ $(document).ready(function() {
                 x: 0,
                 y: 0,
                 length: 60, // in px
-                width: 15
+                width: 15,
+                img: "images/nad.png"
             }
 
             console.log("Classes successfully setup.");
 
             var points = 0;
             var characters = [glucose, nad, atp];
+            var readys = [true, true, true];
 
             // Handle keyboard controls
             var keysDown = {};
@@ -110,17 +111,22 @@ $(document).ready(function() {
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
-                if (38 in keysDown) { // Player holding up
-                    glucose.y -= glucose.speed
+                if (level == 0) {
+                    if (38 in keysDown) { // Player holding up
+                        glucose.y -= glucose.speed
+                    }
+                    if (40 in keysDown) { // Player holding down
+                        glucose.y += glucose.speed
+                    }
+                    if (37 in keysDown) { // Player holding left
+                        glucose.x -= glucose.speed
+                    }
+                    if (39 in keysDown) { // Player holding right
+                        glucose.x += glucose.speed
+                    }
                 }
-                if (40 in keysDown) { // Player holding down
-                    glucose.y += glucose.speed
-                }
-                if (37 in keysDown) { // Player holding left
-                    glucose.x -= glucose.speed
-                }
-                if (39 in keysDown) { // Player holding right
-                    glucose.x += glucose.speed
+                else {
+
                 }
 
                 // Gain points (collision detection)
@@ -135,8 +141,15 @@ $(document).ready(function() {
                     // switch glucose image?
                 }
 
-                if (points >= 50) {
-                    glucoseImage.src = "images/glucose_phosphate.png"
+                if (points >= 50 && level == 0) {
+                    glucose.img = "images/glucose_phosphate.png"
+                    glucose.length = 245;
+                    atp.x = Math.random() * (canvas.width - atp.length);
+                    atp.y = Math.random() *
+                    level++;
+                }
+                if (points >= 50 && level == 1) {
+                    glucose.img = "images/glucose_phosphate.png"
                     glucose.length = 250;
                     atpImage.src = "images/adp.png"
                 }
@@ -195,18 +208,9 @@ $(document).ready(function() {
                     ctx.drawImage(bgImage, 0, 0);
                 }
 
-                if (glucoseReady) {
-                    ctx.drawImage(glucoseImage, glucose.x, glucose.y);
+                for (c in characters) {
+                    ctx.drawImage(c.img, c.x, c.y);
                 }
-
-                if (nadReady) {
-                    ctx.drawImage(nadImage, nad.x, nad.y);
-                }
-
-                if (atpReady) {
-                    ctx.drawImage(atpImage, atp.x, atp.y);
-                }
-
                 // Score
                 ctx.fillStyle = "rgb(0, 0, 0)";
                 ctx.font = "24px Helvetica";
