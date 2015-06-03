@@ -54,8 +54,8 @@ $(document).ready(function() {
             // Game objects
             var glucose = {
                 speed: 10, // movement in pixels/second
-                x: 0,
-                y: 0,
+                x: 600,
+                y: 400,
                 length: 240, // in px; these are used to bound movement
                 width: 40
             };
@@ -137,6 +137,7 @@ $(document).ready(function() {
 
                 if (points >= 50) {
                     glucoseImage.src = "images/glucose_phosphate.png"
+                    glucose.length = 250;
                     atpImage.src = "images/adp.png"
                 }
 
