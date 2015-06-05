@@ -59,12 +59,19 @@ $(document).ready(function() {
             };
             nadImage.src = "images/nad.png";
 
-            var atpReady = false;
-            var atpImage = new Image();
-            atpImage.onload = function() {
-                atpReady = true;
+            var atp1Ready = false;
+            var atp1Image = new Image();
+            atp1Image.onload = function() {
+                atp1Ready = true;
             };
-            atpImage.src = "images/atp.png";
+            atp1Image.src = "images/atp.png";
+
+            var atp2Ready = false;
+            var atp2Image = new Image();
+            atp2Image.onload = function() {
+                atp2Ready = true;
+            };
+            atp2Image.src = "images/atp.png";
 
             console.log("Images loaded.");
             
@@ -131,34 +138,31 @@ $(document).ready(function() {
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
-                if (level == 0) {
-                    if (38 in keysDown) { // Player holding up
-                        glucose.y -= glucose.speed
-                    }
-                    if (40 in keysDown) { // Player holding down
-                        glucose.y += glucose.speed
-                    }
-                    if (37 in keysDown) { // Player holding left
-                        glucose.x -= glucose.speed
-                    }
-                    if (39 in keysDown) { // Player holding right
-                        glucose.x += glucose.speed
-                    }
+                if (38 in keysDown) { // Player holding up
+                    glucose.y -= glucose.speed
                 }
-                else {
-
+                if (40 in keysDown) { // Player holding down
+                    glucose.y += glucose.speed
                 }
-
+                if (37 in keysDown) { // Player holding left
+                    glucose.x -= glucose.speed
+                }
+                if (39 in keysDown) { // Player holding right
+                    glucose.x += glucose.speed
+                }
+                
                 // Gain points (collision detection)
                 // Needs to be changed to nad.
-                if (
+                if (level == 0) && (
                     glucose.x <= (atp.x + atp.length) &&
                     atp.x <= (glucose.x + glucose.length) &&
                     glucose.y <= (atp.y + atp.width) &&
                     atp.y <= (glucose.y + glucose.width)
                 ) {
-                    points += 1;
-                    // switch glucose image?
+                    glucoseImage.src = "images/glucose_phosphate.png"
+                    glucose.length = 245;
+                    atpImage.src = "images/adp.png"
+                    atp2Ready = true;
                 }
 
                 // Move NAD+ randomly
