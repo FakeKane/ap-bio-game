@@ -17,7 +17,7 @@ $(document).ready(function() {
             document.body.appendChild(canvas);
             $(canvas).css('display:block;')
 
-            var level = 0
+            var level = 0;
 
             console.log("Canvas created.");
 
@@ -44,14 +44,35 @@ $(document).ready(function() {
             };
             nadImage.src = "images/nad.png";
 
-            var atpReady = false;
-            var atpImage = new Image();
-            atpImage.onload = function() {
-                atpReady = true;
+            var atp1Ready = false;
+            var atp1Image = new Image();
+            atp1Image.onload = function() {
+                atp1Ready = true;
             };
-            atpImage.src = "images/atp.png";
+            atp1Image.src = "images/atp1.png";
+
+            var atp2Ready = false;
+            var atp2Image = new Image();
+            atp2Image.onload = function() {
+                atp2Ready = true;
+            };
+            atp2Image.src = "images/atp2.png";
 
             console.log("Images loaded.");
+
+            var g1Ready = false;
+            var g1Image = new Image();
+            g1Image.onload = function () {
+                g1Ready = false
+            };
+            g1Image.src = "images/c3p1.png"
+
+            var g2Ready = false;
+            var g2Image = new Image();
+            g2Image.onload = function () {
+                g2Ready = false
+            };
+            g2Image.src = "images/c3p2.png"
             
             // Game objects
             var glucose = {
@@ -60,7 +81,6 @@ $(document).ready(function() {
                 y: 400,
                 length: 240, // in px; these are used to bound movement
                 width: 40,
-                img: glucoseImage
             };
 
             var nad = {
@@ -69,24 +89,44 @@ $(document).ready(function() {
                 y: 0,
                 length: 30, // in px
                 width: 20,
-                img: nadImage
             };
 
-            var atp = {
+            var atp1 = {
                 speed: 5, // this needs to be used
                 x: 0,
                 y: 0,
                 length: 60, // in px
                 width: 15,
-                img: atpImage
+            }
+
+            var atp2 = {
+                speed: 5, // this needs to be used
+                x: 0,
+                y: 0,
+                length: 60, // in px
+                width: 15,
+            }
+
+            var g1 = {
+                speed: 7,
+                x: 0,
+                y: 0,
+                length: 125,
+                width: 40,
+            }
+
+            var g2 = {
+                speed: 7,
+                x: 0,
+                y: 0,
+                length: 125,
+                width: 40,
             }
 
             console.log("Classes successfully setup.");
 
             var points = 0;
-            var characters = [glucose, nad, atp];
-            var readys = [true, true, true];
-
+            var characters = [glucose, atp1, atp2, nad, g1, g2]
             // Handle keyboard controls
             var keysDown = {};
 
@@ -108,42 +148,44 @@ $(document).ready(function() {
                 nad.x = (Math.random() * (canvas.width - 64)) + 32;
                 nad.y = (Math.random() * (canvas.height - 64)) + 32;
 
-                atp.x = (Math.random() * (canvas.width - 64)) + 32;
-                atp.y = (Math.random() * (canvas.height - 64)) + 32;
+                atp1.x = (Math.random() * (canvas.width - 64)) + 32;
+                atp1.y = (Math.random() * (canvas.height - 64)) + 32;
 
+                atp2.x = (Math.random() * (canvas.width - 64)) + 32;
+                atp2.y = (Math.random() * (canvas.height - 64)) + 32;
             }
 
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
-                if (level == 0) {
-                    if (38 in keysDown) { // Player holding up
-                        glucose.y -= glucose.speed
-                    }
-                    if (40 in keysDown) { // Player holding down
-                        glucose.y += glucose.speed
-                    }
-                    if (37 in keysDown) { // Player holding left
-                        glucose.x -= glucose.speed
-                    }
-                    if (39 in keysDown) { // Player holding right
-                        glucose.x += glucose.speed
-                    }
+                if (38 in keysDown) { // Player holding up
+                    glucose.y -= glucose.speed
                 }
-                else {
-
+                if (40 in keysDown) { // Player holding down
+                    glucose.y += glucose.speed
+                }
+                if (37 in keysDown) { // Player holding left
+                    glucose.x -= glucose.speed
+                }
+                if (39 in keysDown) { // Player holding right
+                    glucose.x += glucose.speed
                 }
 
                 // Gain points (collision detection)
                 // Needs to be changed to nad.
                 if (
-                    glucose.x <= (atp.x + atp.length) &&
-                    atp.x <= (glucose.x + glucose.length) &&
-                    glucose.y <= (atp.y + atp.width) &&
-                    atp.y <= (glucose.y + glucose.width)
+                    glucose.x <= (atp1.x + atp1.length) &&
+                    atp1.x <= (glucose.x + glucose.length) &&
+                    glucose.y <= (atp1.y + atp1.width) &&
+                    atp1.y <= (glucose.y + glucose.width)
                 ) {
                     points += 1;
                     // switch glucose image?
+                }
+                
+                if (points >= 100) {
+                    level = 1;
+                    glucoseImage.src = "glucose_phosphate.png";
                 }
 
                 // Move NAD+ randomly
@@ -162,19 +204,23 @@ $(document).ready(function() {
                     nad.y -= nad.speed;
                 }
 
-                // Move ATP randomly, reduced jitters
+                // Move ATP1 randomly, reduced jitters
                 probability = Math.random();
                 if (probability >= 0.75) {
-                    atp.x += atp.speed;
+                    atp1.x += atp1.speed;
+                    atp2.x += atp2.speed;
                 } else if (probability <= 0.25){
-                    atp.x -= atp.speed;
+                    atp1.x -= atp1.speed;
+                    atp2.x -= atp2.speed;
                 }
 
                 probability = Math.random();
                 if (probability >= 0.75) {
-                    atp.y += atp.speed;
+                    atp1.y += atp1.speed;
+                    atp2.y += atp2.speed;
                 } else if (probability <= 0.25){
-                    atp.y -= atp.speed;
+                    atp1.y -= atp1.speed;
+                    atp2.y -= atp2.speed;
                 }
 
                 // don't go out of bounds
@@ -199,16 +245,25 @@ $(document).ready(function() {
                 if (bgReady) {
                     ctx.drawImage(bgImage, 0, 0);
                 }
-
                 if (glucoseReady) {
                     ctx.drawImage(glucoseImage, glucose.x, glucose.y);
                 }
-                if (atpReady) {
-                    ctx.drawImage(atpImage, atp.x, atp.y);
+                if (atp1Ready) {
+                    ctx.drawImage(atp1Image, atp1.x, atp1.y);
+                }
+                if (atp2Ready) {
+                    ctx.drawImage(atp2Image, atp2.x, atp2.y)
                 }
                 if (nadReady) {
                     ctx.drawImage(nadImage, nad.x, nad.y);
                 }
+                if (g1Ready) {
+                    ctx.drawImage(g1Image, g1.x, g1.y);
+                }
+                if (g2Ready) {
+                    ctw.drawImage(g2Image, g2.x, g2.y);
+                }
+                /* We don't need to display points anymore
                 // Score
                 ctx.fillStyle = "rgb(0, 0, 0)";
                 ctx.font = "24px Helvetica";
@@ -216,6 +271,7 @@ $(document).ready(function() {
                 ctx.textBaseline = "top";
                 ctx.fillText("Points: " + points, 32, 32);
                 //console.log("THINGS HAVE BEEN DOODLED.");
+                */
             };
 
             // The main game loop
