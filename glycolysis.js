@@ -17,6 +17,8 @@ $(document).ready(function() {
             document.body.appendChild(canvas);
             $(canvas).css('display:block;')
 
+            var level = 0
+
             console.log("Canvas created.");
 
             // Background image
@@ -33,21 +35,24 @@ $(document).ready(function() {
             glucoseImage.onload = function() {
                 glucoseReady = true;
             };
-
+            glucoseImage.src = "images/glucose.png";
+            
             var nadReady = false;
             var nadImage = new Image();
             nadImage.onload = function() {
                 nadReady = true;
             };
+            nadImage.src = "images/nad.png";
 
             var atpReady = false;
             var atpImage = new Image();
             atpImage.onload = function() {
                 atpReady = true;
             };
+            atpImage.src = "images/atp.png";
 
             console.log("Images loaded.");
-
+            
             // Game objects
             var glucose = {
                 speed: 10, // movement in pixels/second
@@ -55,7 +60,7 @@ $(document).ready(function() {
                 y: 400,
                 length: 240, // in px; these are used to bound movement
                 width: 40,
-                img: "images/glucose.png"
+                img: glucoseImage
             };
 
             var nad = {
@@ -64,7 +69,7 @@ $(document).ready(function() {
                 y: 0,
                 length: 30, // in px
                 width: 20,
-                img: "images/nad.png"
+                img: nadImage
             };
 
             var atp = {
@@ -73,7 +78,7 @@ $(document).ready(function() {
                 y: 0,
                 length: 60, // in px
                 width: 15,
-                img: "images/nad.png"
+                img: atpImage
             }
 
             console.log("Classes successfully setup.");
@@ -141,19 +146,6 @@ $(document).ready(function() {
                     // switch glucose image?
                 }
 
-                if (points >= 50 && level == 0) {
-                    glucose.img = "images/glucose_phosphate.png"
-                    glucose.length = 245;
-                    atp.x = Math.random() * (canvas.width - atp.length);
-                    atp.y = Math.random() *
-                    level++;
-                }
-                if (points >= 50 && level == 1) {
-                    glucose.img = "images/glucose_phosphate.png"
-                    glucose.length = 250;
-                    atpImage.src = "images/adp.png"
-                }
-
                 // Move NAD+ randomly
                 // 2 steps in either direction
                 probability = Math.random();
@@ -208,8 +200,14 @@ $(document).ready(function() {
                     ctx.drawImage(bgImage, 0, 0);
                 }
 
-                for (c in characters) {
-                    ctx.drawImage(c.img, c.x, c.y);
+                if (glucoseReady) {
+                    ctx.drawImage(glucoseImage, glucose.x, glucose.y);
+                }
+                if (atpReady) {
+                    ctx.drawImage(atpImage, atp.x, atp.y);
+                }
+                if (nadReady) {
+                    ctx.drawImage(nadImage, nad.x, nad.y);
                 }
                 // Score
                 ctx.fillStyle = "rgb(0, 0, 0)";
