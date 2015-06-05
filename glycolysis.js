@@ -188,15 +188,15 @@ $(document).ready(function() {
                 
                 // Gain points (collision detection)
                 // Needs to be changed to nad.
-                if (level == 0) && (
-                    glucose.x <= (atp.x + atp.length) &&
-                    atp.x <= (glucose.x + glucose.length) &&
-                    glucose.y <= (atp.y + atp.width) &&
-                    atp.y <= (glucose.y + glucose.width)
+                if (level == 0 && 
+                    glucose.x <= (atp1.x + atp1.length) &&
+                    atp1.x <= (glucose.x + glucose.length) &&
+                    glucose.y <= (atp1.y + atp1.width) &&
+                    atp1.y <= (glucose.y + glucose.width)
                 ) {
                     glucoseImage.src = "images/glucose_phosphate.png"
                     glucose.length = 245;
-                    atpImage.src = "images/adp.png"
+                    atp1Image.src = "images/adp.png"
                     atp2Ready = true;
                 }
                 
