@@ -17,7 +17,22 @@ $(document).ready(function() {
             document.body.appendChild(canvas);
             $(canvas).css('display:block;')
 
-            var level = 0;
+            /* 
+            * | #  | Objective                                                 |
+            * | -- | --------------------------------------------------------- |
+            * | 0  | Collide with the ATP to become glucose with 1 phosphate   |
+            * | 1  | Collide with another ATP to have 2 phosphates             |
+            * | 2  | Split into 2 molecules                                    |
+            * | 3  | Control one of the G3Ps, find a phosphate                 |
+            * | 4  | Control the same G3P, find an NADH, create NAD+           |
+            * | 5  | Control the same G3P, find an ADP, lose a phosphate       |
+            * | 6  | Control the same G3P, find another ADP, lose a phosphate  |
+            * | 7  | step 3 with the other G3P                                 |
+            * | 8  | step 4 with the other G3P                                 |
+            * | 9  | step 5 with the other G3P                                 |
+            * | 10 | step 6 with the other G3P                                 |
+            */
+            var level = 0
 
             console.log("Canvas created.");
 
@@ -49,14 +64,14 @@ $(document).ready(function() {
             atp1Image.onload = function() {
                 atp1Ready = true;
             };
-            atp1Image.src = "images/atp1.png";
+            atp1Image.src = "images/atp.png";
 
             var atp2Ready = false;
             var atp2Image = new Image();
             atp2Image.onload = function() {
                 atp2Ready = true;
             };
-            atp2Image.src = "images/atp2.png";
+            atp2Image.src = "images/atp.png";
 
             console.log("Images loaded.");
 
@@ -170,17 +185,19 @@ $(document).ready(function() {
                 if (39 in keysDown) { // Player holding right
                     glucose.x += glucose.speed
                 }
-
+                
                 // Gain points (collision detection)
                 // Needs to be changed to nad.
-                if (
-                    glucose.x <= (atp1.x + atp1.length) &&
-                    atp1.x <= (glucose.x + glucose.length) &&
-                    glucose.y <= (atp1.y + atp1.width) &&
-                    atp1.y <= (glucose.y + glucose.width)
+                if (level == 0) && (
+                    glucose.x <= (atp.x + atp.length) &&
+                    atp.x <= (glucose.x + glucose.length) &&
+                    glucose.y <= (atp.y + atp.width) &&
+                    atp.y <= (glucose.y + glucose.width)
                 ) {
-                    points += 1;
-                    // switch glucose image?
+                    glucoseImage.src = "images/glucose_phosphate.png"
+                    glucose.length = 245;
+                    atpImage.src = "images/adp.png"
+                    atp2Ready = true;
                 }
                 
                 if (points >= 100) {
