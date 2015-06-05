@@ -17,6 +17,21 @@ $(document).ready(function() {
             document.body.appendChild(canvas);
             $(canvas).css('display:block;')
 
+            /* 
+            * | #  | Objective                                                 |
+            * | -- | --------------------------------------------------------- |
+            * | 0  | Collide with the ATP to become glucose with 1 phosphate   |
+            * | 1  | Collide with another ATP to have 2 phosphates             |
+            * | 2  | Split into 2 molecules                                    |
+            * | 3  | Control one of the G3Ps, find a phosphate                 |
+            * | 4  | Control the same G3P, find an NADH, create NAD+           |
+            * | 5  | Control the same G3P, find an ADP, lose a phosphate       |
+            * | 6  | Control the same G3P, find another ADP, lose a phosphate  |
+            * | 7  | step 3 with the other G3P                                 |
+            * | 8  | step 4 with the other G3P                                 |
+            * | 9  | step 5 with the other G3P                                 |
+            * | 10 | step 6 with the other G3P                                 |
+            */
             var level = 0
 
             console.log("Canvas created.");
