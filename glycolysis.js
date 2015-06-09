@@ -159,6 +159,8 @@ $(document).ready(function() {
                 atp.y = (Math.random() * (canvas.height - 64)) + 32;
             }
 
+            var mashCount = 0;
+            var keyToPress = 37;
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
@@ -200,10 +202,24 @@ $(document).ready(function() {
                         atpImage.src = "images/adp.png"
                         level++;
                         console.log("Now at level " + level);
-                        $('#instructions').html('<p>You did it! Now you need to change into 2 G3P molecules.</p>')
                     }
                 }
-
+                if (level == 2) {
+                    $('#instructions').html('<p>You did it! Now you need to change into 2 G3P molecules. To do this, alternate button mashing your left and right keys.</p>')
+                    
+                    if (keyToPress == 37 && 37 in keysDown) {
+                        mashCount++;
+                        keyToPress = 39;
+                    } else if (keyToPress == 39 && 39 in keysDown) {
+                        mashCount++;
+                        keyToPress = 37;
+                    } if (mashCount < 40) {
+                    } else {
+                        level++;
+                        alert("yay");
+                    }
+                    console.log("Now at level " + level);
+                }
                 // Move NAD+ randomly
                 // 2 steps in either direction
                 probability = Math.random();
