@@ -213,7 +213,7 @@ $(document).ready(function() {
                     } else if (keyToPress == 39 && 39 in keysDown) {
                         mashCount++;
                         keyToPress = 37;
-                    } if (mashCount < 10) {
+                    } if (mashCount < 25) {
                     } else {
                         level++;
                         alert("yay");
