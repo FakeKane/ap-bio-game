@@ -59,12 +59,12 @@ $(document).ready(function() {
             };
             nadImage.src = "images/nad.png";
 
-            var atp1Ready = false;
-            var atp1Image = new Image();
-            atp1Image.onload = function() {
-                atp1Ready = true;
+            var atpReady = false;
+            var atpImage = new Image();
+            atpImage.onload = function() {
+                atpReady = true;
             };
-            atp1Image.src = "images/atp.png";
+            atpImage.src = "images/atp.png";
 
             var atp2Ready = false;
             var atp2Image = new Image();
@@ -106,15 +106,7 @@ $(document).ready(function() {
                 width: 20,
             };
 
-            var atp1 = {
-                speed: 5, // this needs to be used
-                x: 0,
-                y: 0,
-                length: 60, // in px
-                width: 15,
-            }
-
-            var atp2 = {
+            var atp = {
                 speed: 5, // this needs to be used
                 x: 0,
                 y: 0,
@@ -141,7 +133,7 @@ $(document).ready(function() {
             console.log("Classes successfully setup.");
 
             var points = 0;
-            var characters = [glucose, atp1, atp2, nad, g1, g2]
+            var characters = [glucose, atp, nad, g1, g2]
             // Handle keyboard controls
             var keysDown = {};
 
@@ -163,11 +155,8 @@ $(document).ready(function() {
                 nad.x = (Math.random() * (canvas.width - 64)) + 32;
                 nad.y = (Math.random() * (canvas.height - 64)) + 32;
 
-                atp1.x = (Math.random() * (canvas.width - 64)) + 32;
-                atp1.y = (Math.random() * (canvas.height - 64)) + 32;
-
-                atp2.x = (Math.random() * (canvas.width - 64)) + 32;
-                atp2.y = (Math.random() * (canvas.height - 64)) + 32;
+                atp.x = (Math.random() * (canvas.width - 64)) + 32;
+                atp.y = (Math.random() * (canvas.height - 64)) + 32;
             }
 
             // Update game objects
@@ -187,22 +176,32 @@ $(document).ready(function() {
                 }
                 
                 // Gain points (collision detection)
-                // Needs to be changed to nad.
-                if (level == 0 && 
-                    glucose.x <= (atp1.x + atp1.length) &&
-                    atp1.x <= (glucose.x + glucose.length) &&
-                    glucose.y <= (atp1.y + atp1.width) &&
-                    atp1.y <= (glucose.y + glucose.width)
+                if (
+                    glucose.x <= (atp.x + atp.length) &&
+                    atp.x <= (glucose.x + glucose.length) &&
+                    glucose.y <= (atp.y + atp.width) &&
+                    atp.y <= (glucose.y + glucose.width)
                 ) {
-                    glucoseImage.src = "images/glucose_phosphate.png"
-                    glucose.length = 245;
-                    atp1Image.src = "images/adp.png"
-                    atp2Ready = true;
-                }
-                
-                if (points >= 100) {
-                    level = 1;
-                    glucoseImage.src = "glucose_phosphate.png";
+                    if (level == 0) {
+                        glucoseImage.src = "images/glucose_phosphate-2.png"
+                        glucose.length = 245;
+                        
+                        // Move ATP
+                        atp.x = (Math.random() * (canvas.width - 64)) + 32;
+                        atp.y = (Math.random() * (canvas.height - 64)) + 32;
+
+                        level++;
+                        console.log("Now at level " + level);
+                        $('#instructions').html('<p>Great job! Now get to the other ATP.</p>');
+                    
+                    } else if (level == 1) {
+                        glucoseImage.src = "images/glucose_phosphate.png"
+                        glucose.length = 250;
+                        atpImage.src = "images/adp.png"
+                        level++;
+                        console.log("Now at level " + level);
+                        $('#instructions').html('<p>You did it! Now you need to change into 2 G3P molecules.</p>')
+                    }
                 }
 
                 // Move NAD+ randomly
@@ -221,23 +220,19 @@ $(document).ready(function() {
                     nad.y -= nad.speed;
                 }
 
-                // Move ATP1 randomly, reduced jitters
+                // Move atp randomly, reduced jitters
                 probability = Math.random();
                 if (probability >= 0.75) {
-                    atp1.x += atp1.speed;
-                    atp2.x += atp2.speed;
+                    atp.x += atp.speed;
                 } else if (probability <= 0.25){
-                    atp1.x -= atp1.speed;
-                    atp2.x -= atp2.speed;
+                    atp.x -= atp.speed;
                 }
 
                 probability = Math.random();
                 if (probability >= 0.75) {
-                    atp1.y += atp1.speed;
-                    atp2.y += atp2.speed;
+                    atp.y += atp.speed;
                 } else if (probability <= 0.25){
-                    atp1.y -= atp1.speed;
-                    atp2.y -= atp2.speed;
+                    atp.y -= atp.speed;
                 }
 
                 // don't go out of bounds
@@ -265,11 +260,8 @@ $(document).ready(function() {
                 if (glucoseReady) {
                     ctx.drawImage(glucoseImage, glucose.x, glucose.y);
                 }
-                if (atp1Ready) {
-                    ctx.drawImage(atp1Image, atp1.x, atp1.y);
-                }
-                if (atp2Ready) {
-                    ctx.drawImage(atp2Image, atp2.x, atp2.y)
+                if (atpReady) {
+                    ctx.drawImage(atpImage, atp.x, atp.y);
                 }
                 if (nadReady) {
                     ctx.drawImage(nadImage, nad.x, nad.y);
