@@ -206,6 +206,7 @@ $(document).ready(function() {
                 }
                 if (level == 2) {
                     $('#instructions').html('<p>You did it! Now you need to change into 2 G3P molecules. To do this, alternate button mashing your left and right keys.</p>')
+                    
                     if (keyToPress == 37 && 37 in keysDown) {
                         mashCount++;
                         keyToPress = 39;
@@ -213,7 +214,6 @@ $(document).ready(function() {
                         mashCount++;
                         keyToPress = 37;
                     } if (mashCount < 10) {
-                        setTimeout(waitForMash, 2500);
                     } else {
                         level++;
                         alert("yay");
