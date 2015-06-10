@@ -189,6 +189,7 @@ $(document).ready(function() {
 
             var mashCount = 0;
             var keyToPress = 37;
+            var adpTouched = false;
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
@@ -268,7 +269,7 @@ $(document).ready(function() {
                     } if (mashCount < 40) {
                     } else {
                         level++;
-                        
+                        console.log("Now at level " + level);
                         // add g1 and g2
                         g1.x = glucose.x;
                         g1.y = glucose.y;
@@ -313,9 +314,45 @@ $(document).ready(function() {
                         g1Image.src = "images/complete_g1.png";
 
                         level++;
+                        console.log("Now at level " + level);
                     }
-                }
+                } else if (level == 4) {
+                    $('#instructions').css("color", "red");
+                    $('#instructions').html("<p>INCOMING TRANSMISSION: ~*BZZT*~ <br></br> Hello, Glucose. You may think you're the biggest hotshot around, but truth be told, your measly 2 ATP net gain here isn't much for the body. That's right. You're just a servant of the ETC, the Electron Transport Chain. GET TO WORK AND PREPARE THAT NADH.</p>");
 
+                    if (
+                        g1.x <= (nad.x + nad.length) &&
+                        nad.x <= (g1.x + g1.length) &&
+                        g1.y <= (nad.y + nad.width) &&
+                        nad.y <= (g1.y + g1.width)
+                    ) {
+                        nadImage.src = "images/nadh.png";
+                        level++;
+                        console.log("Now at level " + level);
+                    }
+                } else if (level == 5) {
+                    $('#instructions').html("<p>Yes. Yeeeess. Good boy (or girl [or molecule]). Now go and donate phosphate to those ADPs, and get your measly reward.</p>");
+                    if (
+                        g1.x <= (atp.x + atp.length) &&
+                        atp.x <= (g1.x + g1.length) &&
+                        g1.y <= (atp.y + atp.width) &&
+                        atp.y <= (g1.y + g1.width)
+                    ) {
+                        characters.splice(characters.indexOf(atp), 1);
+                        adpTouched = true;
+                    }
+                    if (!adpTouched) {
+                        
+                    } else {
+                        atp.x += 4;
+                    }
+                } else if (level == 6) {
+
+                    $('#instructions').css("color", "#356175");
+                }
+                
+
+                
                 // Move NAD+ randomly
                 // 2 steps in either direction
                 probability = Math.random();
