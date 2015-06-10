@@ -187,6 +187,17 @@ $(document).ready(function() {
                 pi.y = -500;
             }
 
+            // check if two objects have collided
+            var hasCollided = function(a, b) {
+                console.log("inside hasCollided");
+                return (
+                    a.x <= (b.x + b.length) &&
+                    b.x <= (a.x + a.length) &&
+                    a.y <= (b.y + b.width) &&
+                    b.y <= (a.y + a.width)
+                ) ? true : false;
+            }
+
             var mashCount = 0;
             var keyToPress = 37;
             // Update game objects
@@ -230,12 +241,7 @@ $(document).ready(function() {
                 }
                 
                 // Gain points (collision detection)
-                if (
-                    glucose.x <= (atp.x + atp.length) &&
-                    atp.x <= (glucose.x + glucose.length) &&
-                    glucose.y <= (atp.y + atp.width) &&
-                    atp.y <= (glucose.y + glucose.width)
-                ) {
+                if (hasCollided(glucose, atp)) {
                     if (level == 0) {
                         glucoseImage.src = "images/glucose_phosphate-2.png"
                         glucose.length = 245;
@@ -298,12 +304,7 @@ $(document).ready(function() {
                     $('#instructions').html('<p>Great job! You now control one of the G3P molecules. First, find an inorganic phosphate.</p>');
 
                     // detect g1/pi collision
-                    if (
-                        g1.x <= (pi.x + pi.length) &&
-                        pi.x <= (g1.x + g1.length) &&
-                        g1.y <= (pi.y + pi.width) &&
-                        pi.y <= (g1.y + g1.width)
-                    ) {
+                    if (hasCollided(g1, pi)) {
                         // hide pi
                         pi.x = -500;
                         pi.y = -500;
