@@ -88,6 +88,13 @@ $(document).ready(function() {
                 g2Ready = true;
             };
             g2Image.src = "images/c3p2.png"
+
+            var piReady = false;
+            var piImage = new Image();
+            piImage.onload = function () {
+                piImage = true;
+            };
+            piImage.src = "images/phosphate.png"
             
             // Game objects
             var glucose = {
@@ -114,6 +121,7 @@ $(document).ready(function() {
                 width: 15,
             }
 
+            // g3p #1
             var g1 = {
                 speed: 7,
                 x: -500,
@@ -122,8 +130,18 @@ $(document).ready(function() {
                 width: 40,
             }
 
+            // g3p #2
             var g2 = {
                 speed: 7,
+                x: -500,
+                y: -500,
+                length: 125,
+                width: 40,
+            }
+
+            // inorganic phosphate
+            var pi = {
+                speed: 3,
                 x: -500,
                 y: -500,
                 length: 125,
@@ -236,7 +254,7 @@ $(document).ready(function() {
                     }
                 }
                 if (level == 2) {
-                    $('#instructions').html('<p>You did it! Now you need to change into 2 G3P molecules. To do this, alternate button mashing your left and right keys.</p>')
+                    $('#instructions').html('<p>You did it! Now you need to change into 2 G3P molecules. To do this, alternate button mashing your left and right keys.</p>');
                     
                     if (keyToPress == 37 && 37 in keysDown) {
                         mashCount++;
@@ -253,8 +271,8 @@ $(document).ready(function() {
                         g1.y = glucose.y;
                         console.log("g1: (" + g1.x + ", " + g1.y + ")");
 
-                        g2.x = glucose.x + glucose.length/2 + 5;
-                        g2.y = glucose.y;
+                        g2.x = canvas.width + 32;
+                        g2.y = canvas.height + 32;
                         console.log("g2: (" + g2.x + ", " + g2.y + ")");
 
                         characters.push(g1, g2);
@@ -267,7 +285,29 @@ $(document).ready(function() {
                         characters.splice(characters.indexOf(glucose), 1);
                         console.log(characters);
                     }
+                } else if (level == 3) {
+                    $('#instructions').html('<p>Great job! You now control one of the G3P molecules. First, find an inorganic phosphate.</p>');
+
+                    // add phosphate (pi)
+                    pi.x = (Math.random() * (canvas.width - 64)) + 32;
+                    pi.y = (Math.random() * (canvas.height - 64)) + 32;
+
+                    // detect g1/pi collision
+                    if (
+                        g1.x <= (pi.x + pi.length) &&
+                        pi.x <= (g1.x + g1.length) &&
+                        g1.y <= (pi.y + pi.width) &&
+                        pi.y <= (g1.y + g1.width)
+                    ) {
+                        // hide pi
+                        pi.x = -500;
+                        pi.y = -500;
+
+                        // update g1 image
+                        g1Image.src = "images/c3p1_complete.png";
+                    }
                 }
+
                 // Move NAD+ randomly
                 // 2 steps in either direction
                 probability = Math.random();
@@ -335,6 +375,9 @@ $(document).ready(function() {
                 }
                 if (g2Ready) {
                     ctx.drawImage(g2Image, g2.x, g2.y);
+                }
+                if (piReady) {
+                    ctx.drawImage(piImage, pi.x, pi.y);
                 }
                 /* We don't need to display points anymore
                 // Score
