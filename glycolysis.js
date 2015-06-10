@@ -287,14 +287,15 @@ $(document).ready(function() {
                         console.log("glucose: (" + glucose.x + ", " + glucose.y + ")");
                         characters.splice(characters.indexOf(glucose), 1);
                         console.log(characters);
+
+                        // set up level 3
+                        // add phosphate (pi)
+                        pi.x = (Math.random() * (canvas.width - 64)) + 32;
+                        pi.y = (Math.random() * (canvas.height - 64)) + 32;
+                        characters.push(pi);
                     }
                 } else if (level == 3) {
                     $('#instructions').html('<p>Great job! You now control one of the G3P molecules. First, find an inorganic phosphate.</p>');
-
-                    // add phosphate (pi)
-                    pi.x = (Math.random() * (canvas.width - 64)) + 32;
-                    pi.y = (Math.random() * (canvas.height - 64)) + 32;
-                    characters.push(pi);
 
                     // detect g1/pi collision
                     if (
@@ -344,6 +345,21 @@ $(document).ready(function() {
                     atp.y += atp.speed;
                 } else if (probability <= 0.25){
                     atp.y -= atp.speed;
+                }
+
+                // Move pi randomly
+                probability = Math.random();
+                if (probability >= 0.75) {
+                    pi.x += pi.speed;
+                } else if (probability <= 0.25){
+                    pi.x -= pi.speed;
+                }
+
+                probability = Math.random();
+                if (probability >= 0.75) {
+                    pi.y += pi.speed;
+                } else if (probability <= 0.25){
+                    pi.y -= pi.speed;
                 }
 
                 // don't go out of bounds
