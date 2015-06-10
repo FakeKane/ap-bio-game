@@ -78,14 +78,14 @@ $(document).ready(function() {
             var g1Ready = false;
             var g1Image = new Image();
             g1Image.onload = function () {
-                g1Ready = false
+                g1Ready = true;
             };
             g1Image.src = "images/c3p1.png"
 
             var g2Ready = false;
             var g2Image = new Image();
             g2Image.onload = function () {
-                g2Ready = false
+                g2Ready = true;
             };
             g2Image.src = "images/c3p2.png"
             
@@ -116,16 +116,16 @@ $(document).ready(function() {
 
             var g1 = {
                 speed: 7,
-                x: 0,
-                y: 0,
+                x: -500,
+                y: -500,
                 length: 125,
                 width: 40,
             }
 
             var g2 = {
                 speed: 7,
-                x: 0,
-                y: 0,
+                x: -500,
+                y: -500,
                 length: 125,
                 width: 40,
             }
@@ -133,7 +133,7 @@ $(document).ready(function() {
             console.log("Classes successfully setup.");
 
             var points = 0;
-            var characters = [glucose, atp, nad, g1, g2]
+            var characters = [glucose, atp, nad]
             // Handle keyboard controls
             var keysDown = {};
 
@@ -157,6 +157,13 @@ $(document).ready(function() {
 
                 atp.x = (Math.random() * (canvas.width - 64)) + 32;
                 atp.y = (Math.random() * (canvas.height - 64)) + 32;
+
+                // g1 and g2 are off screen initially
+                g1.x = -500;
+                g1.y = -500;
+
+                g2.x = -500;
+                g2.y = -500;
             }
 
             var mashCount = 0;
@@ -165,16 +172,40 @@ $(document).ready(function() {
             var update = function(modifier) {
                 // move glucose according to keyboard
                 if (38 in keysDown) { // Player holding up
-                    glucose.y -= glucose.speed
+                    if (level < 3) {
+                        glucose.y -= glucose.speed;
+                    } else if (level >= 3 && level < 7) {
+                        g1.y -= g1.speed;
+                    } else if (level >= 7) {
+                        g2.y -= g2.speed;
+                    }
                 }
                 if (40 in keysDown) { // Player holding down
-                    glucose.y += glucose.speed
+                    if (level < 3) {
+                        glucose.y += glucose.speed;
+                    } else if (level >= 3 && level < 7) {
+                        g1.y += g1.speed;
+                    } else if (level >= 7) {
+                        g2.y += g2.speed;
+                    }
                 }
                 if (37 in keysDown) { // Player holding left
-                    glucose.x -= glucose.speed
+                    if (level < 3) {
+                        glucose.x -= glucose.speed;
+                    } else if (level >= 3 && level < 7) {
+                        g1.x -= g1.speed;
+                    } else if (level >= 7) {
+                        g2.x -= g2.speed;
+                    }
                 }
                 if (39 in keysDown) { // Player holding right
-                    glucose.x += glucose.speed
+                    if (level < 3) {
+                        glucose.x += glucose.speed;
+                    } else if (level >= 3 && level < 7) {
+                        g1.x += g1.speed;
+                    } else if (level >= 7) {
+                        g2.x += g2.speed;
+                    }
                 }
                 
                 // Gain points (collision detection)
@@ -216,9 +247,26 @@ $(document).ready(function() {
                     } if (mashCount < 40) {
                     } else {
                         level++;
-                        alert("yay");
+                        
+                        // add g1 and g2
+                        g1.x = glucose.x;
+                        g1.y = glucose.y;
+                        console.log("g1: (" + g1.x + ", " + g1.y + ")");
+
+                        g2.x = glucose.x + glucose.length/2 + 5;
+                        g2.y = glucose.y;
+                        console.log("g2: (" + g2.x + ", " + g2.y + ")");
+
+                        characters.push(g1, g2);
+                        console.log(characters);
+
+                        // remove glucose
+                        glucose.x = -50;
+                        glucose.y = -50;
+                        console.log("glucose: (" + glucose.x + ", " + glucose.y + ")");
+                        characters.splice(characters.indexOf(glucose), 1);
+                        console.log(characters);
                     }
-                    console.log("Now at level " + level);
                 }
                 // Move NAD+ randomly
                 // 2 steps in either direction
@@ -286,7 +334,7 @@ $(document).ready(function() {
                     ctx.drawImage(g1Image, g1.x, g1.y);
                 }
                 if (g2Ready) {
-                    ctw.drawImage(g2Image, g2.x, g2.y);
+                    ctx.drawImage(g2Image, g2.x, g2.y);
                 }
                 /* We don't need to display points anymore
                 // Score
