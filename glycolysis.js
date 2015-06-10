@@ -98,7 +98,7 @@ $(document).ready(function() {
             
             // Game objects
             var glucose = {
-                speed: 10, // movement in pixels/second
+                speed: 6, // movement in pixels/second
                 x: 600,
                 y: 400,
                 length: 240, // in px; these are used to bound movement
@@ -347,6 +347,9 @@ $(document).ready(function() {
                     } else {
                         atp.x += 4;
                     }
+                    if (atp.x > screen.width) {
+                        level++;
+                    }
                 } else if (level == 6) {
                     // add the level 6 things here
                     $('#instructions').css("color", "#356175");
@@ -375,6 +378,7 @@ $(document).ready(function() {
                         g2Image.src = "images/complete_g2.png";
 
                         level++;
+                        alert("Game so far complete.");
                     }
                 }
                 
