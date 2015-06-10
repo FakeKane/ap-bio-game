@@ -32,7 +32,7 @@ $(document).ready(function() {
             * | 9  | step 5 with the other G3P                                 |
             * | 10 | step 6 with the other G3P                                 |
             */
-            var level = 0
+            var level = 0;
 
             console.log("Canvas created.");
 
