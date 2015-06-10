@@ -18,20 +18,20 @@ $(document).ready(function() {
             $(canvas).css('display:block;')
 
             /* 
-            * | #  | Objective                                                 |
-            * | -- | --------------------------------------------------------- |
-            * | 0  | Collide with the ATP to become glucose with 1 phosphate   |
-            * | 1  | Collide with another ATP to have 2 phosphates             |
-            * | 2  | Split into 2 molecules                                    |
-            * | 3  | Control one of the G3Ps, find a phosphate                 |
-            * | 4  | Control the same G3P, find an NADH, create NAD+           |
-            * | 5  | Control the same G3P, find an ADP, lose a phosphate       |
-            * | 6  | Control the same G3P, find another ADP, lose a phosphate  |
-            * | 7  | step 3 with the other G3P                                 |
-            * | 8  | step 4 with the other G3P                                 |
-            * | 9  | step 5 with the other G3P                                 |
-            * | 10 | step 6 with the other G3P                                 |
-            */
+             * | #  | Objective                                                 |
+             * | -- | --------------------------------------------------------- |
+             * | 0  | Collide with the ATP to become glucose with 1 phosphate   |
+             * | 1  | Collide with another ATP to have 2 phosphates             |
+             * | 2  | Split into 2 molecules                                    |
+             * | 3  | Control one of the G3Ps, find a phosphate                 |
+             * | 4  | Control the same G3P, find an NADH, create NAD+           |
+             * | 5  | Control the same G3P, find an ADP, lose a phosphate       |
+             * | 6  | Control the same G3P, find another ADP, lose a phosphate  |
+             * | 7  | step 3 with the other G3P                                 |
+             * | 8  | step 4 with the other G3P                                 |
+             * | 9  | step 5 with the other G3P                                 |
+             * | 10 | step 6 with the other G3P                                 |
+             */
             var level = 0;
 
             console.log("Canvas created.");
@@ -98,7 +98,7 @@ $(document).ready(function() {
             
             // Game objects
             var glucose = {
-                speed: 6, // movement in pixels/second
+                speed: 3, // movement in pixels/second
                 x: 600,
                 y: 400,
                 length: 240, // in px; these are used to bound movement
@@ -192,9 +192,9 @@ $(document).ready(function() {
                 console.log("inside hasCollided");
                 return (
                     a.x <= (b.x + b.length) &&
-                    b.x <= (a.x + a.length) &&
-                    a.y <= (b.y + b.width) &&
-                    b.y <= (a.y + a.width)
+                        b.x <= (a.x + a.length) &&
+                        a.y <= (b.y + b.width) &&
+                        b.y <= (a.y + a.width)
                 ) ? true : false;
             }
 
@@ -254,7 +254,7 @@ $(document).ready(function() {
                         level++;
                         console.log("Now at level " + level);
                         $('#instructions').html('<p>Great job! Now get to the other ATP.</p>');
-                    
+                        
                     } else if (level == 1) {
                         glucoseImage.src = "images/glucose_phosphate.png"
                         glucose.length = 250;
@@ -321,37 +321,26 @@ $(document).ready(function() {
                     $('#instructions').css("color", "red");
                     $('#instructions').html("<p>INCOMING TRANSMISSION: ~*BZZT*~ <br></br> Hello, Glucose. You may think you're the biggest hotshot around, but truth be told, your measly 2 ATP net gain here isn't much for the body. That's right. You're just a servant of the ETC, the Electron Transport Chain. GET TO WORK AND PREPARE THAT NADH.</p>");
 
-                    if (
-                        g1.x <= (nad.x + nad.length) &&
-                        nad.x <= (g1.x + g1.length) &&
-                        g1.y <= (nad.y + nad.width) &&
-                        nad.y <= (g1.y + g1.width)
-                    ) {
+                    if (hasCollided(g1, nad)) {
                         nadImage.src = "images/nadh.png";
                         level++;
                         console.log("Now at level " + level);
                     }
                 } else if (level == 5) {
                     $('#instructions').html("<p>Yes. Yeeeess. Good boy (or girl [or molecule]). Now go and donate phosphate to those ADPs, and get your measly reward.</p>");
-                    if (
-                        g1.x <= (atp.x + atp.length) &&
-                        atp.x <= (g1.x + g1.length) &&
-                        g1.y <= (atp.y + atp.width) &&
-                        atp.y <= (g1.y + g1.width)
-                    ) {
+                    if (hasCollided(g1, atp)) {
                         characters.splice(characters.indexOf(atp), 1);
                         adpTouched = true;
                     }
+                    // while adp has not been contacted
                     if (!adpTouched) {
-                        
-                    } else {
+                    } else { // make it go off screen
                         atp.x += 4;
                     }
                     if (atp.x > screen.width) {
                         level++;
                     }
                 } else if (level == 6) {
-                    // add the level 6 things here
                     $('#instructions').css("color", "#356175");
                     // set up level 7
                     // add phosphate (pi)
@@ -363,12 +352,7 @@ $(document).ready(function() {
                     $('#instructions').html('<p>You\'re almost done! Now, you can control the other G3P molecule, and repeat the same steps as before. Find an inorganic phosphate!</p>');
 
                     // detect g2/pi collision
-                    if (
-                        g2.x <= (pi.x + pi.length) &&
-                        pi.x <= (g2.x + g2.length) &&
-                        g2.y <= (pi.y + pi.width) &&
-                        pi.y <= (g2.y + g2.width)
-                    ) {
+                    if (hasCollided(g2, pi)) {
                         // hide pi
                         pi.x = -500;
                         pi.y = -500;
@@ -378,7 +362,21 @@ $(document).ready(function() {
                         g2Image.src = "images/complete_g2.png";
 
                         level++;
-                        alert("Game so far complete.");
+                        console.log("Now at level " + level);
+                    }
+                } else if (level == 8) {
+                    nadImage.src = "images/nad.png";
+                    $('#instructions').html('<p>Try to remember the steps from before!</p>')
+                    if (hasCollided(g1, nad)) {
+                        nadImage.src = "images/nadh.png";
+                        level++;
+                        console.log("Now at level " + level);
+                    }
+                } else if (level == 9) {
+                    // something about moving the atp molecule to do it again!
+                } else if (level == 10) {
+                    if (hasCollided(g1, atp)) {
+                        atpImage.src = "images/atp.png";
                     }
                 }
                 
