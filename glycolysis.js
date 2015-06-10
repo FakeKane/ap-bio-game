@@ -314,6 +314,35 @@ $(document).ready(function() {
 
                         level++;
                     }
+                } else if (level == 6) {
+                    // add the level 6 things here
+
+                    // set up level 7
+                    // add phosphate (pi)
+                    pi.x = (Math.random() * (canvas.width - 64)) + 32;
+                    pi.y = (Math.random() * (canvas.height - 64)) + 32;
+                    characters.push(pi);
+                    level++;
+                } else if (level == 7) {
+                    $('#instructions').html('<p>You\'re almost done! Now, you can control the other G3P molecule, and repeat the same steps as before. Find an inorganic phosphate!</p>');
+
+                    // detect g2/pi collision
+                    if (
+                        g2.x <= (pi.x + pi.length) &&
+                        pi.x <= (g2.x + g2.length) &&
+                        g2.y <= (pi.y + pi.width) &&
+                        pi.y <= (g2.y + g2.width)
+                    ) {
+                        // hide pi
+                        pi.x = -500;
+                        pi.y = -500;
+                        characters.splice(characters.indexOf(pi), 1);
+
+                        // update g2 image
+                        g2Image.src = "images/complete_g2.png";
+
+                        level++;
+                    }
                 }
 
                 // Move NAD+ randomly
