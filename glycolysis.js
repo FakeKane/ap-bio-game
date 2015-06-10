@@ -92,7 +92,7 @@ $(document).ready(function() {
             var piReady = false;
             var piImage = new Image();
             piImage.onload = function () {
-                piImage = true;
+                piReady = true;
             };
             piImage.src = "images/phosphate.png"
             
@@ -141,11 +141,11 @@ $(document).ready(function() {
 
             // inorganic phosphate
             var pi = {
-                speed: 3,
+                speed: 1,
                 x: -500,
                 y: -500,
-                length: 125,
-                width: 40,
+                length: 10,
+                width: 10,
             }
 
             console.log("Classes successfully setup.");
@@ -182,6 +182,9 @@ $(document).ready(function() {
 
                 g2.x = -500;
                 g2.y = -500;
+
+                pi.x = -500;
+                pi.y = -500;
             }
 
             var mashCount = 0;
@@ -291,6 +294,7 @@ $(document).ready(function() {
                     // add phosphate (pi)
                     pi.x = (Math.random() * (canvas.width - 64)) + 32;
                     pi.y = (Math.random() * (canvas.height - 64)) + 32;
+                    characters.push(pi);
 
                     // detect g1/pi collision
                     if (
@@ -302,9 +306,12 @@ $(document).ready(function() {
                         // hide pi
                         pi.x = -500;
                         pi.y = -500;
+                        characters.splice(characters.indexOf(pi), 1);
 
                         // update g1 image
-                        g1Image.src = "images/c3p1_complete.png";
+                        g1Image.src = "images/complete_g1.png";
+
+                        level++;
                     }
                 }
 
