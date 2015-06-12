@@ -331,7 +331,7 @@ $(document).ready(function() {
                     } else {
                         nad.x += 4;
                     }
-                    if (nad.x > screen.width) {
+                    if (nad.x > screen.width - 150) {
                         level++;
                         console.log("Now at level " + level);
                     }
@@ -347,7 +347,7 @@ $(document).ready(function() {
                     } else { // make it go off screen
                         atp.x += 4;
                     }
-                    if (atp.x > screen.width) {
+                    if (atp.x > screen.width - 150) {
                         level++;
                         console.log("Now at level " + level);
                     }
@@ -357,7 +357,13 @@ $(document).ready(function() {
                     // add phosphate (pi)
                     pi.x = (Math.random() * (canvas.width - 64)) + 32;
                     pi.y = (Math.random() * (canvas.height - 64)) + 32;
-                    characters.push(pi);
+                    nad.x = (Math.random() * (canvas.width - 64)) + 32;
+                    nad.y = (Math.random() * (canvas.height - 64)) + 32;
+                    nadImage.src = "images/nad.png";
+                    atp.x = (Math.random() * (canvas.width - 64)) + 32;
+                    atp.y = (Math.random() * (canvas.height - 64)) + 32;
+                    atpImage.src = "images/adp.png";
+                    characters = [pi, atp, nad, g1, g2]; // reset list of characters
                     level++;
                 } else if (level == 7) {
                     $('#instructions').html('<p>You\'re almost done! Now, you can control the other G3P molecule, and repeat the same steps as before. Find an inorganic phosphate!</p>');
@@ -376,11 +382,8 @@ $(document).ready(function() {
                         console.log("Now at level " + level);
                     }
                 } else if (level == 8) {
-                    nad.x = (Math.random() * (canvas.width - 64)) + 32
-                    nad.y = (Math.random() * (canvas.height - 64)) + 32
-                    nadImage.src = "images/nad.png";
                     $('#instructions').html('<p>Try to remember the steps from before!</p>')
-                    if (hasCollided(g1, nad)) {
+                    if (hasCollided(g2, nad)) {
                         nadImage.src = "images/nadh.png";
                         level++;
                         console.log("Now at level " + level);
@@ -388,7 +391,7 @@ $(document).ready(function() {
                 } else if (level == 9) {
                     // something about moving the atp molecule to do it again!
                 } else if (level == 10) {
-                    if (hasCollided(g1, atp)) {
+                    if (hasCollided(g2, atp)) {
                         atpImage.src = "images/atp.png";
                     }
                 }
