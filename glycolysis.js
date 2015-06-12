@@ -99,7 +99,7 @@ $(document).ready(function() {
             // Game objects
             var glucose = {
                 name: "glucose",
-                speed: 3, // movement in pixels/second
+                speed: 4, // movement in pixels/second
                 x: 600,
                 y: 400,
                 length: 240, // in px; these are used to bound movement
@@ -127,7 +127,7 @@ $(document).ready(function() {
             // g3p #1
             var g1 = {
                 name: "g1",
-                speed: 7,
+                speed: 4,
                 x: -500,
                 y: -500,
                 length: 125,
@@ -137,7 +137,7 @@ $(document).ready(function() {
             // g3p #2
             var g2 = {
                 name: "g2",
-                speed: 7,
+                speed: 4,
                 x: -500,
                 y: -500,
                 length: 125,
