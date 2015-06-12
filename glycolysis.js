@@ -466,7 +466,11 @@ $(document).ready(function() {
                         var currentTime = new Date().getTime();
                         while (currentTime + 2500 >= new Date().getTime()) {
                         }
+                        bgImage = background2.png;
+                        level++;
                     }
+                } else if (level == 11) {
+                    break;
                 }
                 
                 // Move NAD+ randomly
