@@ -98,6 +98,7 @@ $(document).ready(function() {
             
             // Game objects
             var glucose = {
+                name: "glucose",
                 speed: 3, // movement in pixels/second
                 x: 600,
                 y: 400,
@@ -106,6 +107,7 @@ $(document).ready(function() {
             };
 
             var nad = {
+                name: "nad",
                 speed: 2, // this needs to be used
                 x: 0,
                 y: 0,
@@ -114,6 +116,7 @@ $(document).ready(function() {
             };
 
             var atp = {
+                name: "atp",
                 speed: 5, // this needs to be used
                 x: 0,
                 y: 0,
@@ -123,6 +126,7 @@ $(document).ready(function() {
 
             // g3p #1
             var g1 = {
+                name: "g1",
                 speed: 7,
                 x: -500,
                 y: -500,
@@ -132,6 +136,7 @@ $(document).ready(function() {
 
             // g3p #2
             var g2 = {
+                name: "g2",
                 speed: 7,
                 x: -500,
                 y: -500,
@@ -141,6 +146,7 @@ $(document).ready(function() {
 
             // inorganic phosphate
             var pi = {
+                name: "inorganic phosphate",
                 speed: 1,
                 x: -500,
                 y: -500,
@@ -189,13 +195,20 @@ $(document).ready(function() {
 
             // check if two objects have collided
             var hasCollided = function(a, b) {
-                console.log("inside hasCollided");
                 return (
                     a.x <= (b.x + b.length) &&
                         b.x <= (a.x + a.length) &&
                         a.y <= (b.y + b.width) &&
                         b.y <= (a.y + a.width)
                 ) ? true : false;
+            }
+
+            var printCharacters = function(characters) {
+                var names = [];
+                for (var i = 0; i < characters.length; i++) {
+                    names.push(characters[i].name);
+                }
+                console.log(names.join());
             }
 
             var mashCount = 0;
@@ -286,14 +299,13 @@ $(document).ready(function() {
                         console.log("g2: (" + g2.x + ", " + g2.y + ")");
 
                         characters.push(g1, g2);
-                        console.log(characters);
 
                         // remove glucose
                         glucose.x = -50;
                         glucose.y = -50;
                         console.log("glucose: (" + glucose.x + ", " + glucose.y + ")");
                         characters.splice(characters.indexOf(glucose), 1);
-                        console.log(characters);
+                        printCharacters(characters);
 
                         // set up level 3
                         // add phosphate (pi)
@@ -316,6 +328,7 @@ $(document).ready(function() {
 
                         level++;
                         console.log("Now at level " + level);
+                        printCharacters(characters);
                     }
                 } else if (level == 4) {
                     $('#instructions').css("color", "red");
@@ -325,11 +338,14 @@ $(document).ready(function() {
                         nadImage.src = "images/nadh.png";
                         level++;
                         console.log("Now at level " + level);
+                        printCharacters(characters);
                     }
                 } else if (level == 5) {
                     $('#instructions').html("<p>Yes. Yeeeess. Good boy (or girl [or molecule]). Now go and donate phosphate to those ADPs, and get your measly reward.</p>");
                     if (hasCollided(g1, atp)) {
-                        characters.splice(characters.indexOf(atp), 1);
+                        if (characters.indexOf(atp) != -1) {
+                            characters.splice(characters.indexOf(atp), 1);
+                        }
                         adpTouched = true;
                     }
                     // while adp has not been contacted
@@ -339,15 +355,42 @@ $(document).ready(function() {
                     }
                     if (atp.x > screen.width) {
                         level++;
+                        console.log("Now at level " + level);
+
+                        // prepare level 6
+                        atpImage.src = "images/atp.png";
+                        atp.x = (Math.random() * (canvas.width - 64)) + 32;
+                        atp.y = (Math.random() * (canvas.height - 64)) + 32;
+                        characters.push(atp);
+                        adpTouched = false;
                     }
                 } else if (level == 6) {
                     $('#instructions').css("color", "#356175");
-                    // set up level 7
-                    // add phosphate (pi)
-                    pi.x = (Math.random() * (canvas.width - 64)) + 32;
-                    pi.y = (Math.random() * (canvas.height - 64)) + 32;
-                    characters.push(pi);
-                    level++;
+                    $('#instructions').html("<p>Awesome! Now find another ADP to give a phosphate to</p>");
+                    
+                    if (hasCollided(g1, atp)) {
+                        console.log("g1 has collided with atp");
+                        if (characters.indexOf(atp) != -1) {
+                            characters.splice(characters.indexOf(atp), 1);
+                        }
+                        printCharacters(characters);
+                        adpTouched = true;
+                        console.log(adpTouched);
+                    }
+                    // while adp has not been contacted
+                    if (!adpTouched) {
+                    } else { // make it go off screen
+                        atp.x += 4;
+                    }
+                    if (atp.x > screen.width) {
+                        level++;
+                        // set up level 7
+                        // add phosphate (pi)
+                        pi.x = (Math.random() * (canvas.width - 64)) + 32;
+                        pi.y = (Math.random() * (canvas.height - 64)) + 32;
+                        characters.push(pi);
+                        printCharacters(characters);
+                    }
                 } else if (level == 7) {
                     $('#instructions').html('<p>You\'re almost done! Now, you can control the other G3P molecule, and repeat the same steps as before. Find an inorganic phosphate!</p>');
 
