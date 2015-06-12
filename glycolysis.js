@@ -322,7 +322,9 @@ $(document).ready(function() {
                         // hide pi
                         pi.x = -500;
                         pi.y = -500;
-                        characters.splice(characters.indexOf(pi), 1);
+                        if (characters.indexOf(pi) != -1) {
+                            characters.splice(characters.indexOf(pi), 1);
+                        }
 
                         // update g1 image
                         g1Image.src = "images/complete_g1.png";
@@ -336,7 +338,9 @@ $(document).ready(function() {
                     $('#instructions').html("<p>INCOMING TRANSMISSION: ~*BZZT*~ <br></br> Hello, Glucose. You may think you're the biggest hotshot around, but truth be told, your measly 2 ATP net gain here isn't much for the body. That's right. You're just a servant of the ETC, the Electron Transport Chain. GET TO WORK AND PREPARE THAT NADH.</p>");
 
                     if (hasCollided(g1, nad)) {
-                        characters.splice(characters.indexOf(nad), 1);
+                        if (characters.indexOf(nad) != -1) {
+                            characters.splice(characters.indexOf(nad), 1);
+                        }
                         nadTouched = true;
                         nadImage.src = "images/nadh.png";
                     }
@@ -413,8 +417,9 @@ $(document).ready(function() {
                         // hide pi
                         pi.x = -500;
                         pi.y = -500;
-                        characters.splice(characters.indexOf(pi), 1);
-
+                        if (characters.indexOf(pi) != -1) {
+                            characters.splice(characters.indexOf(pi), 1);
+                        }
                         // update g2 image
                         g2Image.src = "images/complete_g2.png";
 
