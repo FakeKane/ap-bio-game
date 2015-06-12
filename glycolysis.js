@@ -427,17 +427,30 @@ $(document).ready(function() {
 
                         level++;
                         console.log("Now at level " + level);
+
+                        nadTouched = false;
                     }
                 } else if (level == 8) {
                     $('#instructions').html('<p>Try to remember the steps from before!</p>')
                     if (hasCollided(g2, nad)) {
+                        if (characters.indexOf(nad) != -1) {
+                            characters.splice(characters.indexOf(nad), 1);
+                        }
+                        nadTouched = true;
                         nadImage.src = "images/nadh.png";
+                    }
+                    if (!nadTouched) {
+                    } else {
+                        nad.x += 4;
+                    }
+                    if (nad.x > screen.width - 150) {
+                        // prepare level 9
                         level++;
-                        console.log("Now at level " + level);
                     }
                 } else if (level == 9) {
                     $('#instructions').css("color", "red");
-                    $('#instructions').html('<p>...........</p>')
+                    $('#instructions').html('<p>...........</p>');
+
                     if (hasCollided(g2, atp)) {
                         level++;
                         console.log("Now at level " + level);
@@ -449,8 +462,6 @@ $(document).ready(function() {
                         atpImage.src = "images/atp.png";
                     }
                 }
-                
-
                 
                 // Move NAD+ randomly
                 // 2 steps in either direction
