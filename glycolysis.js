@@ -214,6 +214,7 @@ $(document).ready(function() {
             var mashCount = 0;
             var keyToPress = 37;
             var adpTouched = false;
+            var nadTouched = false;
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
@@ -335,7 +336,15 @@ $(document).ready(function() {
                     $('#instructions').html("<p>INCOMING TRANSMISSION: ~*BZZT*~ <br></br> Hello, Glucose. You may think you're the biggest hotshot around, but truth be told, your measly 2 ATP net gain here isn't much for the body. That's right. You're just a servant of the ETC, the Electron Transport Chain. GET TO WORK AND PREPARE THAT NADH.</p>");
 
                     if (hasCollided(g1, nad)) {
+                        characters.splice(characters.indexOf(nad), 1);
+                        nadTouched = true;
                         nadImage.src = "images/nadh.png";
+                    }
+                    if (!nadTouched) {
+                    } else {
+                        nad.x += 4;
+                    }
+                    if (nad.x > screen.width - 150) {
                         level++;
                         console.log("Now at level " + level);
                         printCharacters(characters);
@@ -347,16 +356,16 @@ $(document).ready(function() {
                             characters.splice(characters.indexOf(atp), 1);
                         }
                         adpTouched = true;
+                        atpImage.src = "images/atp.png";
                     }
                     // while adp has not been contacted
                     if (!adpTouched) {
                     } else { // make it go off screen
                         atp.x += 4;
                     }
-                    if (atp.x > screen.width) {
+                    if (atp.x > screen.width - 150) {
                         level++;
                         console.log("Now at level " + level);
-
                         // prepare level 6
                         atpImage.src = "images/atp.png";
                         atp.x = (Math.random() * (canvas.width - 64)) + 32;
@@ -388,8 +397,13 @@ $(document).ready(function() {
                         // add phosphate (pi)
                         pi.x = (Math.random() * (canvas.width - 64)) + 32;
                         pi.y = (Math.random() * (canvas.height - 64)) + 32;
-                        characters.push(pi);
-                        printCharacters(characters);
+                        nad.x = (Math.random() * (canvas.width - 64)) + 32;
+                        nad.y = (Math.random() * (canvas.height - 64)) + 32;
+                        nadImage.src = "images/nad.png";
+                        atp.x = (Math.random() * (canvas.width - 64)) + 32;
+                        atp.y = (Math.random() * (canvas.height - 64)) + 32;
+                        atpImage.src = "images/adp.png";
+                        characters = [pi, atp, nad, g1, g2]; // reset list of characters
                     }
                 } else if (level == 7) {
                     $('#instructions').html('<p>You\'re almost done! Now, you can control the other G3P molecule, and repeat the same steps as before. Find an inorganic phosphate!</p>');
@@ -408,17 +422,23 @@ $(document).ready(function() {
                         console.log("Now at level " + level);
                     }
                 } else if (level == 8) {
-                    nadImage.src = "images/nad.png";
                     $('#instructions').html('<p>Try to remember the steps from before!</p>')
-                    if (hasCollided(g1, nad)) {
+                    if (hasCollided(g2, nad)) {
                         nadImage.src = "images/nadh.png";
                         level++;
                         console.log("Now at level " + level);
                     }
                 } else if (level == 9) {
-                    // something about moving the atp molecule to do it again!
+                    $('#instructions').css("color", "red");
+                    $('#instructions').html('<p>...........</p>')
+                    if (hasCollided(g2, atp)) {
+                        level++;
+                        console.log("Now at level " + level);
+                        atp.x = ((canvas.width - 64) * Math.random()) + 32;
+                        atp.y = ((canvas.height - 64) * Math.random()) + 32;
+                    }
                 } else if (level == 10) {
-                    if (hasCollided(g1, atp)) {
+                    if (hasCollided(g2, atp)) {
                         atpImage.src = "images/atp.png";
                     }
                 }
