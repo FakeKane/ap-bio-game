@@ -201,6 +201,7 @@ $(document).ready(function() {
             var mashCount = 0;
             var keyToPress = 37;
             var adpTouched = false;
+            var nadTouched = false;
             // Update game objects
             var update = function(modifier) {
                 // move glucose according to keyboard
@@ -322,7 +323,15 @@ $(document).ready(function() {
                     $('#instructions').html("<p>INCOMING TRANSMISSION: ~*BZZT*~ <br></br> Hello, Glucose. You may think you're the biggest hotshot around, but truth be told, your measly 2 ATP net gain here isn't much for the body. That's right. You're just a servant of the ETC, the Electron Transport Chain. GET TO WORK AND PREPARE THAT NADH.</p>");
 
                     if (hasCollided(g1, nad)) {
+                        characters.splice(characters.indexOf(nad), 1);
+                        nadTouched = true;
                         nadImage.src = "images/nadh.png";
+                    }
+                    if (!nadTouched) {
+                    } else {
+                        nad.x += 4;
+                    }
+                    if (nad.x > screen.width) {
                         level++;
                         console.log("Now at level " + level);
                     }
@@ -331,6 +340,7 @@ $(document).ready(function() {
                     if (hasCollided(g1, atp)) {
                         characters.splice(characters.indexOf(atp), 1);
                         adpTouched = true;
+                        atpImage.src = "images/atp.png";
                     }
                     // while adp has not been contacted
                     if (!adpTouched) {
@@ -339,6 +349,7 @@ $(document).ready(function() {
                     }
                     if (atp.x > screen.width) {
                         level++;
+                        console.log("Now at level " + level);
                     }
                 } else if (level == 6) {
                     $('#instructions').css("color", "#356175");
@@ -365,6 +376,8 @@ $(document).ready(function() {
                         console.log("Now at level " + level);
                     }
                 } else if (level == 8) {
+                    nad.x = (Math.random() * (canvas.width - 64)) + 32
+                    nad.y = (Math.random() * (canvas.height - 64)) + 32
                     nadImage.src = "images/nad.png";
                     $('#instructions').html('<p>Try to remember the steps from before!</p>')
                     if (hasCollided(g1, nad)) {
