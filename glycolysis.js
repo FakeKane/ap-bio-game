@@ -305,7 +305,9 @@ $(document).ready(function() {
                         glucose.x = -50;
                         glucose.y = -50;
                         console.log("glucose: (" + glucose.x + ", " + glucose.y + ")");
-                        characters.splice(characters.indexOf(glucose), 1);
+                        if (characters.indexOf(glucose) != -1) {
+                            characters.splice(characters.indexOf(glucose), 1);
+                        }
                         printCharacters(characters);
 
                         // set up level 3
