@@ -447,6 +447,12 @@ $(document).ready(function() {
                 } else if (level == 10) {
                     if (hasCollided(g2, atp)) {
                         atpImage.src = "images/atp.png";
+                        level++;
+                        $('#instructions').css("color", "red");
+                        $('#instructions').html('<p>SUCCESS!</p>');
+                        var currentTime = new Date().getTime();
+                        while (currentTime + 2500 >= new Date().getTime()) {
+                        }
                     }
                 }
                 
