@@ -389,7 +389,14 @@ $(document).ready(function() {
                         console.log("Now at level " + level);
                     }
                 } else if (level == 9) {
-                    // something about moving the atp molecule to do it again!
+                    $('#instructions').css("color", "red");
+                    $('#instructions').html('<p>...........</p>')
+                    if (hasCollided(g2, atp)) {
+                        level++;
+                        console.log("Now at level " + level);
+                        atp.x = ((canvas.width - 64) * Math.random()) + 32;
+                        atp.y = ((canvas.height - 64) * Math.random()) + 32;
+                    }
                 } else if (level == 10) {
                     if (hasCollided(g2, atp)) {
                         atpImage.src = "images/atp.png";
