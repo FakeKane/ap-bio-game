@@ -14,7 +14,7 @@ $(document).ready(function() {
             var ctx = canvas.getContext("2d");
             canvas.width = 640;
             canvas.height = 480;
-            document.body.appendChild(canvas);
+            $('div.page-wrap').append(canvas);
             $(canvas).css('display:block;')
 
             /* 
@@ -440,7 +440,6 @@ $(document).ready(function() {
                         }
                         nadTouched = true;
                         nadImage.src = "images/nadh.png";
-                        g2Image.src = "images/c3p2.png";
                     }
                     if (!nadTouched) {
                     } else {
@@ -457,12 +456,13 @@ $(document).ready(function() {
                     if (hasCollided(g2, atp)) {
                         level++;
                         console.log("Now at level " + level);
-                        g2Image.src = "images/c3p1-bare.png";
+                        g2Image.src = "images/c3p2.png";
                         atp.x = ((canvas.width - 64) * Math.random()) + 32;
                         atp.y = ((canvas.height - 64) * Math.random()) + 32;
                     }
                 } else if (level == 10) {
                     if (hasCollided(g2, atp)) {
+                        g2Image.src = "images/c3p1-bare.png";
                         atpImage.src = "images/atp.png";
                         level++;
                         $('#instructions').css("color", "red");

@@ -29,18 +29,8 @@ div#instructions {
   padding-right: 150px;
 }
 
-div.page-wrap {
-  min-height: 100%;
-  margin-bottom: -122px;
-}
-
-div.page-wrap:after {
-  content: "";
-  display: block;
-}
-
-.footer, .page-wrap:after {
-  height: 122px;
+.footer {
+  margin-top: 520px;
   text-align: center;
 }
 
