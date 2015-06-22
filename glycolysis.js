@@ -363,6 +363,7 @@ $(document).ready(function() {
                         }
                         adpTouched = true;
                         atpImage.src = "images/atp.png";
+                        g1Image.src = "images/c3p1.png";
                     }
                     // while adp has not been contacted
                     if (!adpTouched) {
@@ -385,6 +386,7 @@ $(document).ready(function() {
                     
                     if (hasCollided(g1, atp)) {
                         console.log("g1 has collided with atp");
+                        g1Image.src = "images/c3p1-bare.png";
                         if (characters.indexOf(atp) != -1) {
                             characters.splice(characters.indexOf(atp), 1);
                         }
@@ -438,6 +440,7 @@ $(document).ready(function() {
                         }
                         nadTouched = true;
                         nadImage.src = "images/nadh.png";
+                        g2Image.src = "images/c3p2.png";
                     }
                     if (!nadTouched) {
                     } else {
@@ -454,6 +457,7 @@ $(document).ready(function() {
                     if (hasCollided(g2, atp)) {
                         level++;
                         console.log("Now at level " + level);
+                        g2Image.src = "images/c3p1-bare.png";
                         atp.x = ((canvas.width - 64) * Math.random()) + 32;
                         atp.y = ((canvas.height - 64) * Math.random()) + 32;
                     }
