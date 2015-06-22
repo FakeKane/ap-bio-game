@@ -466,11 +466,11 @@ $(document).ready(function() {
                         var currentTime = new Date().getTime();
                         while (currentTime + 2500 >= new Date().getTime()) {
                         }
-                        bgImage = background2.png;
+                        bgImage.src = "images/background2.png";
                         level++;
                     }
                 } else if (level == 11) {
-                    break;
+                    throw new Error("Game Over!");
                 }
                 
                 // Move NAD+ randomly
