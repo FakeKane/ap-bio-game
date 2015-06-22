@@ -1,7 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans|Bangers);
 
+html {
+  height: 100%;
+}
+
 body {
   color: #356175;
+  height: 100%;
 }
 
 div#game, canvas {
@@ -22,6 +27,21 @@ div#instructions {
   float: right;
   width: 300px;
   padding-right: 150px;
+}
+
+div.page-wrap {
+  min-height: 100%;
+  margin-bottom: -122px;
+}
+
+div.page-wrap:after {
+  content: "";
+  display: block;
+}
+
+.footer, .page-wrap:after {
+  height: 122px;
+  text-align: center;
 }
 
 h1, h2 {

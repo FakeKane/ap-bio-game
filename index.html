@@ -6,20 +6,24 @@
     </head>
 
     <body>
-        <h1>The Glycolysis Game</h1>
+        <div class="page-wrap">
+            <h1>The Glycolysis Game</h1>
 
-        <div id="game">
-            <div class="container">
-                <h2>Instructions</h2>
-                <p>You are a dying glucose molecule, and your last wish is to give back to the world that created you. You need to release your energy so that a cell can do useful work with it.</p>
-                <p>Use your arrow keys to move around and pick up the molecule you need. We'll help you figure out what you need!</p>
-                <button id="playbutton">I'm ready</button>
+            <div id="game">
+                <div class="container">
+                    <h2>Instructions</h2>
+                    <p>You are a dying glucose molecule, and your last wish is to give back to the world that created you. You need to release your energy so that a cell can do useful work with it.</p>
+                    <p>Use your arrow keys to move around and pick up the molecule you need. We'll help you figure out what you need!</p>
+                    <button id="playbutton">I'm ready</button>
+                </div>
+            </div>
+
+            <div id="instructions" style="display:none;">
+                <p>Welcome to the cytoplasm! To break down, you need to first get some energy. Find 2 ATP molecules, which will give you one phosphate each and become ADP.</p>
             </div>
         </div>
 
-        <div id="instructions" style="display:none;">
-            <p>Welcome to the cytoplasm! To break down, you need to first get some energy. Find 2 ATP molecules, which will give you one phosphate each and become ADP.</p>
-        </div>
+        <footer class="footer">Made by Alisha Ukani and Andrew Li. Find code <a href="https://github.com/FakeKane/ap-bio-game">here</a></footer>
 
         <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
